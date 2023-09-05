@@ -1,8 +1,10 @@
 import { Controller, Get, Param, Post, Body, Put, Delete, HttpException, HttpStatus, Logger, Header } from '@nestjs/common';
-import { PostService } from './prisma/post.service';
+import { PostService } from './post.service';
 import { Post as PostModel } from '@prisma/client';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('posts')
+@ApiTags('/posts')
 export class PostController {
   private readonly logger = new Logger(PostController.name);
 
