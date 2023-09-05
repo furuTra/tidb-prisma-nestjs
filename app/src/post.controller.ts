@@ -2,7 +2,7 @@ import { Controller, Get, Param, Post, Body, Put, Delete, HttpException, HttpSta
 import { PostService } from './prisma/post.service';
 import { Post as PostModel } from '@prisma/client';
 
-@Controller()
+@Controller('posts')
 export class PostController {
   private readonly logger = new Logger(PostController.name);
 
@@ -10,7 +10,7 @@ export class PostController {
     private readonly postService: PostService,
   ) {}
 
-  @Get('post/:id')
+  @Get(':id')
   @Header('content-type', 'application/json; charset=UTF-8')
   async getPostById(@Param('id') id: string): Promise<PostModel> {
     return this.postService.post({ id: Number(id) });
@@ -24,7 +24,7 @@ export class PostController {
     });
   }
 
-  @Get('filtered-posts/:searchString')
+  @Get(':searchString')
   async getFilteredPosts(@Param('searchString') searchString: string): Promise<PostModel[]> {
     return this.postService.posts({
       where: {
@@ -40,7 +40,7 @@ export class PostController {
     })
   }
 
-  @Post('post')
+  @Post()
   async createDraft(
     @Body() postData: { title: string; content?: string; authorEmail: string }
   ): Promise<PostModel> {
@@ -63,7 +63,7 @@ export class PostController {
     });
   }
 
-  @Delete('post/:id')
+  @Delete(':id')
   async deletePost(@Param('id') id: string): Promise<PostModel> {
     return this.postService.deletePost({ id: Number(id) });
   }
